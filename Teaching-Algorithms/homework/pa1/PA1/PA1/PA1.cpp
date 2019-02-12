@@ -1,7 +1,5 @@
 #include "PA1.h"
 
-//Ashleigh test commit
-
 //PA #1 TOOD: Generates a Huffman character tree from the supplied text
 HuffmanTree<char>* PA1::huffmanTreeFromText(vector<string> data)
 {
@@ -14,7 +12,8 @@ HuffmanTree<char>* PA1::huffmanTreeFromText(vector<string> data)
 	//1.	When merging the two smallest subtrees, make sure to place the 
 	//      smallest tree on the left side!
 
-	//store frequencies in hashtable
+	// counting and storing frequencies in hashtable
+
 	unordered_map<char, int> frequencies{};
 	for (auto word : data)
 	{
@@ -32,11 +31,13 @@ HuffmanTree<char>* PA1::huffmanTreeFromText(vector<string> data)
 	//loop through frequency distributions
 	for (auto kvp : frequencies)
 	{
-		//kvp first char, kvp second frequency(weight)
+		//kvp first char, kvp second frequency(weight)	
+		// pushes "trees" into the forest with key, value pair
 		forest.push(new HuffmanTree<char>(kvp.first, kvp.second));
 	}
 
 	//merge two trees
+	// while there is more than one tree in the forest
 	while (forest.size() > 1)
 	{
 		HuffmanTree<char>*smaller = forest.top();
@@ -48,7 +49,7 @@ HuffmanTree<char>* PA1::huffmanTreeFromText(vector<string> data)
 		forest.push(new HuffmanTree<char>{ smaller,larger });
 	}
 
-	//TODO: shouldn't return nullptr
+
 	return forest.top(); // return tree
 }
 
@@ -170,8 +171,11 @@ string PA1::decodeBits(vector<bool> bits, unordered_map<char, string> huffmanMap
 {
 	//Uses the supplied Huffman Map to convert the vector of bools (bits) back into text.
 	//To solve this problem, I converted the Huffman Map into a Huffman Tree and used 
-	//tree traversals to convert the bits back into text.
+	//tree traversals to convert the bits back into text
 	// call build tree from map
+
+	huffmanTreeFromMap(huffmanMap);
+
 	ostringstream result{};
 	return result.str();
 }
