@@ -1,5 +1,6 @@
 #include "PA1.h"
 
+//Ashleigh test commit
 
 //PA #1 TOOD: Generates a Huffman character tree from the supplied text
 HuffmanTree<char>* PA1::huffmanTreeFromText(vector<string> data)
