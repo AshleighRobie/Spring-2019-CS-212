@@ -1,4 +1,18 @@
 #include "CampusGraph.h";
+#include "CsvParser.h";
+#include "GraphNode.h";
+#include "StringGraphNode.h";
+#include <fstream>
+#include <iostream>
+#include <cstdlib>
+#include <string>
+#include <vector>
+#include <sstream>
+#include <unordered_map>
+
+// create look up map
+unordered_map <string, string>map_codes;
+unordered_map <string, StringGraphNode*>campus_map;
 
 int main(void)
 {
