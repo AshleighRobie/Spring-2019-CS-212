@@ -23,6 +23,11 @@ private:
 	unordered_map<string, StringGraphNode*> _graph;
 
 public:
+	void setCampusGraph(unordered_map<string,StringGraphNode*> graph)
+	{
+		_graph = graph;
+	}
+
 	void addVertex(const string& key)
 	{
 		_graph[key] = new StringGraphNode(key);
