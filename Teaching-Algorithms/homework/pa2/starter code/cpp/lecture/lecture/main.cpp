@@ -12,259 +12,200 @@ double findTime(CampusGraph map,  string start_location, string end_location)
 	string key;
 	distances.find(start_location);
 	//if(is_found == true)
+
+	return 0;
 }
 
 unordered_map<StringGraphNode*, string*> buildMap()
 {
+	unordered_map<StringGraphNode*, string*> map;
+
+	return map;
 	// may delete later... 
 }
 
 int main(void)
 {
-	//Example of how to parse a CSV file for graph building
-	CsvStateMachine csm{ "data.csv" };
-	vector<vector<string>> data = csm.processFile();
-
+	CampusGraph CampusCodesMap;
 	unordered_map<string, StringGraphNode*> mapCode;
 	unordered_map<StringGraphNode*, string*> CampusMap;
-	CampusGraph CampusCodesMap;
+
+	// parses through distance data
+	CsvStateMachine distanceData{ "distances.csv" };
+	vector<vector<string>> distances = distanceData.processFile();
+
+
 	CampusCodesMap.setCampusGraph(mapCode);
 
-	// does this automatically create the key value pair for GraphNode
-	// how does inheritance work?
-	// creates nodes based keys
-	StringGraphNode CanyonNode = StringGraphNode("A");
-	StringGraphNode CreekviewNode = StringGraphNode("B");
-	StringGraphNode JollyGiantNode = StringGraphNode("C");
-	StringGraphNode HillNode = StringGraphNode("D");
-	StringGraphNode CypressNode = StringGraphNode("E");
-	StringGraphNode FeuerwerkerNode = StringGraphNode("F");
-	StringGraphNode NelsonsNode = StringGraphNode("G");
-	StringGraphNode FoundersNode = StringGraphNode("H");
-	StringGraphNode MillStreetNode = StringGraphNode("I");
-	StringGraphNode UCquadNode = StringGraphNode("J");
-	StringGraphNode StudentHealthNode = StringGraphNode("K");
-	StringGraphNode LibraryNode = StringGraphNode("L");
-	StringGraphNode VanMatreNode = StringGraphNode("M");
-	StringGraphNode SiemensNode = StringGraphNode("N");
-	StringGraphNode RedwoodBowlNode = StringGraphNode("O");
-	StringGraphNode MusicANode = StringGraphNode("P");
-	StringGraphNode UpperFieldNode = StringGraphNode("Q");
-	StringGraphNode MusicArtNode = StringGraphNode("R");
-	StringGraphNode LibraryHousesNode = StringGraphNode("S");
-	StringGraphNode RWCNode = StringGraphNode("T");
-	StringGraphNode TelonicherNode = StringGraphNode("U");
-	StringGraphNode ArtANode = StringGraphNode("V");
-	StringGraphNode BWHousesNode = StringGraphNode("W");
-	StringGraphNode ArtLabNode = StringGraphNode("X");
-	StringGraphNode GistNode = StringGraphNode("Y");
-	StringGraphNode SciANode = StringGraphNode("Z");
-	StringGraphNode SRCNode = StringGraphNode("A2");
-	StringGraphNode KinesiologyNode = StringGraphNode("B2");
-	StringGraphNode ForbesNode = StringGraphNode("C2");
-	StringGraphNode ScienceNode = StringGraphNode("D2");
-	StringGraphNode SBSNode = StringGraphNode("E2");
-	StringGraphNode CollegeCreek1Node = StringGraphNode("F2");
-	StringGraphNode HarryGriffithNode = StringGraphNode("G2");
-	StringGraphNode CollegeCreek2Node = StringGraphNode("H2");
-	StringGraphNode CEFNode = StringGraphNode("I2");
-	StringGraphNode WildlifeNode = StringGraphNode("J2");
-	StringGraphNode MarineWildlifeNode = StringGraphNode("K2");
-	StringGraphNode GamePenNode = StringGraphNode("L2");
-	StringGraphNode NaturalResourcesNode = StringGraphNode("M2");
-	StringGraphNode FacilitiesNode = StringGraphNode("N2");
-	StringGraphNode BoatNode = StringGraphNode("O2");
-	StringGraphNode BSSNode = StringGraphNode("P2");
-	StringGraphNode BSSLotBuildingNode = StringGraphNode("Q2");
-	StringGraphNode ForestryNode = StringGraphNode("R2");
-	StringGraphNode AnnexNode = StringGraphNode("S2");
-	StringGraphNode SchatzEnergyNode = StringGraphNode("T2");
+	StringGraphNode* A_NodePointer = new StringGraphNode("A");
+	StringGraphNode* B_NodePointer = new StringGraphNode("B");
+	StringGraphNode* C_NodePointer = new StringGraphNode("C");
+	StringGraphNode* D_NodePointer = new StringGraphNode("D");
+	StringGraphNode* E_NodePointer = new StringGraphNode("E");
+	StringGraphNode* F_NodePointer = new StringGraphNode("F");
+	StringGraphNode* G_NodePointer = new StringGraphNode("G");
+	StringGraphNode* H_NodePointer = new StringGraphNode("H");
+	StringGraphNode* I_NodePointer = new StringGraphNode("I");
+	StringGraphNode* J_NodePointer = new StringGraphNode("J");
+	StringGraphNode* K_NodePointer = new StringGraphNode("K");
+	StringGraphNode* L_NodePointer = new StringGraphNode("L");
+	StringGraphNode* M_NodePointer = new StringGraphNode("M");
+	StringGraphNode* N_NodePointer = new StringGraphNode("N");
+	StringGraphNode* O_NodePointer = new StringGraphNode("O");
+	StringGraphNode* P_NodePointer = new StringGraphNode("P");
+	StringGraphNode* Q_NodePointer = new StringGraphNode("Q");
+	StringGraphNode* R_NodePointer = new StringGraphNode("R");
+	StringGraphNode* S_NodePointer = new StringGraphNode("S");
+	StringGraphNode* T_NodePointer = new StringGraphNode("T");
+	StringGraphNode* U_NodePointer = new StringGraphNode("U");
+	StringGraphNode* V_NodePointer = new StringGraphNode("V");
+	StringGraphNode* W_NodePointer = new StringGraphNode("W");
+	StringGraphNode* X_NodePointer = new StringGraphNode("X");
+	StringGraphNode* Y_NodePointer = new StringGraphNode("Y");
+	StringGraphNode* Z_NodePointer = new StringGraphNode("Z");
+	StringGraphNode* A2_NodePointer = new StringGraphNode("A2");
+	StringGraphNode* B2_NodePointer = new StringGraphNode("B2");
+	StringGraphNode* C2_NodePointer = new StringGraphNode("C2");
+	StringGraphNode* D2_NodePointer = new StringGraphNode("D2");
+	StringGraphNode* E2_NodePointer = new StringGraphNode("E2");
+	StringGraphNode* F2_NodePointer = new StringGraphNode("F2");
+	StringGraphNode* G2_NodePointer = new StringGraphNode("G2");
+	StringGraphNode* H2_NodePointer = new StringGraphNode("H2");
+	StringGraphNode* I2_NodePointer = new StringGraphNode("I2");
+	StringGraphNode* J2_NodePointer = new StringGraphNode("J2");
+	StringGraphNode* K2_NodePointer = new StringGraphNode("K2");
+	StringGraphNode* L2_NodePointer = new StringGraphNode("L2");
+	StringGraphNode* M2_NodePointer = new StringGraphNode("M2");
+	StringGraphNode* N2_NodePointer = new StringGraphNode("N2");
+	StringGraphNode* O2_NodePointer = new StringGraphNode("O2");
+	StringGraphNode* P2_NodePointer = new StringGraphNode("P2");
+	StringGraphNode* Q2_NodePointer = new StringGraphNode("Q2");
+	StringGraphNode* R2_NodePointer = new StringGraphNode("R2");
+	StringGraphNode* S2_NodePointer = new StringGraphNode("S2");
+	StringGraphNode* T2_NodePointer = new StringGraphNode("T2");
+
 
 	// creates individual buildings
-	CampusCodesMap.addVertex("ALDER");
-	CampusCodesMap.addVertex("CEDAR");
-	CampusCodesMap.addVertex("CHINQ");
-	CampusCodesMap.addVertex("HEMLOCK");
-	CampusCodesMap.addVertex("MADRN");
-	CampusCodesMap.addVertex("MAPLE");
-	CampusCodesMap.addVertex("PEPR");
-	CampusCodesMap.addVertex("TANOK");
-	CampusCodesMap.addVertex("CREEK");
-	CampusCodesMap.addVertex("FERN");
-	CampusCodesMap.addVertex("LAUREL");
-	CampusCodesMap.addVertex("JUNIP");
-	CampusCodesMap.addVertex("WILLOW");
-	CampusCodesMap.addVertex("JGC");
-	CampusCodesMap.addVertex("REDWO");
-	CampusCodesMap.addVertex("SUNST");
-	CampusCodesMap.addVertex("CYPRS");
-	CampusCodesMap.addVertex("FWH");
-	CampusCodesMap.addVertex("NHE");
-	CampusCodesMap.addVertex("NHW");
-	CampusCodesMap.addVertex("FH");
-	CampusCodesMap.addVertex("BRH");
-	CampusCodesMap.addVertex("HAH");
-	CampusCodesMap.addVertex("LAPT");
-	CampusCodesMap.addVertex("BOOK");
-	CampusCodesMap.addVertex("UC");
-	CampusCodesMap.addVertex("HC");
-	CampusCodesMap.addVertex("LIB");
-	CampusCodesMap.addVertex("VMH");
-	CampusCodesMap.addVertex("SH");
-	CampusCodesMap.addVertex("RB");
-	CampusCodesMap.addVertex("RB");
-	CampusCodesMap.addVertex("UPF");
-	CampusCodesMap.addVertex("ARTB");
-	CampusCodesMap.addVertex("MUSB");
-	CampusCodesMap.addVertex("BALH");
-	CampusCodesMap.addVertex("HH");
-	CampusCodesMap.addVertex("RWC");
-	CampusCodesMap.addVertex("TH");
-	CampusCodesMap.addVertex("ARTA");
-	CampusCodesMap.addVertex("BHH");
-	CampusCodesMap.addVertex("WH");
-	CampusCodesMap.addVertex("CERAM");
-	CampusCodesMap.addVertex("SCLPT");
-	CampusCodesMap.addVertex("GH");
-	CampusCodesMap.addVertex("SCIA");
-	CampusCodesMap.addVertex("SRC");
-	CampusCodesMap.addVertex("KA");
-	CampusCodesMap.addVertex("FGYM");
-	CampusCodesMap.addVertex("SCIB");
-	CampusCodesMap.addVertex("SCIC");
-	CampusCodesMap.addVertex("SCID");
-	CampusCodesMap.addVertex("SCIE");
-	CampusCodesMap.addVertex("SBS");
-	CampusCodesMap.addVertex("DELNO");
-	CampusCodesMap.addVertex("SHAST");
-	CampusCodesMap.addVertex("CDL");
-	CampusCodesMap.addVertex("HGH");
-	CampusCodesMap.addVertex("MENDO");
-	CampusCodesMap.addVertex("TRIN");
-	CampusCodesMap.addVertex("CEF");
-	CampusCodesMap.addVertex("WDFS");
-	CampusCodesMap.addVertex("WGP");
-	CampusCodesMap.addVertex("MWCC");
-	CampusCodesMap.addVertex("NR");
-	CampusCodesMap.addVertex("FM");
-	CampusCodesMap.addVertex("SR");
-	CampusCodesMap.addVertex("BOAT");
-	CampusCodesMap.addVertex("BSS");
-	CampusCodesMap.addVertex("NAF");
-	CampusCodesMap.addVertex("BH");
-	CampusCodesMap.addVertex("MCOM");
-	CampusCodesMap.addVertex("MWH");
-	CampusCodesMap.addVertex("TOD");
-	CampusCodesMap.addVertex("WWH");
-	CampusCodesMap.addVertex("FR");
-	CampusCodesMap.addVertex("ANEX");
-	CampusCodesMap.addVertex("SERC");
-
-	// connects the map key values and the buildings
-	CampusCodesMap.connectVertex("A", "ALDER", 0, false);
-	CampusCodesMap.connectVertex("A", "CEDAR", 0, false);
-	CampusCodesMap.connectVertex("A", "CHINQ", 0, false);
-	CampusCodesMap.connectVertex("A", "HEMLOCK", 0, false);
-	CampusCodesMap.connectVertex("A", "MADRN", 0, false);
-	CampusCodesMap.connectVertex("A", "MAPLE", 0, false);
-	CampusCodesMap.connectVertex("A", "PEPR", 0, false);
-	CampusCodesMap.connectVertex("A", "TANOK", 0, false);
-	CampusCodesMap.connectVertex("B", "CREEK", 0, false);
-	CampusCodesMap.connectVertex("B", "FERN", 0, false);
-	CampusCodesMap.connectVertex("B", "LAUREL", 0, false);
-	CampusCodesMap.connectVertex("B", "JUNIP", 0, false);
-	CampusCodesMap.connectVertex("B", "WILLOW", 0, false);
-	CampusCodesMap.connectVertex("C", "JGC", 0, false);
-	CampusCodesMap.connectVertex("D", "REDWO", 0, false);
-	CampusCodesMap.connectVertex("D", "SUNST", 0, false);
-	CampusCodesMap.connectVertex("E", "CYPRS", 0, false);
-	CampusCodesMap.connectVertex("F", "FWH", 0, false);
-	CampusCodesMap.connectVertex("G", "NHE", 0, false);
-	CampusCodesMap.connectVertex("G", "NHW", 0, false);
-	CampusCodesMap.connectVertex("H", "FH", 0, false);
-	CampusCodesMap.connectVertex("I", "BRH", 0, false);
-	CampusCodesMap.connectVertex("I", "HAH", 0, false);
-	CampusCodesMap.connectVertex("I", "LAPT", 0, false);
-	CampusCodesMap.connectVertex("J", "BOOK", 0, false);
-	CampusCodesMap.connectVertex("J", "UC", 0, false);
-	CampusCodesMap.connectVertex("K", "HC", 0, false);
-	CampusCodesMap.connectVertex("L", "LIB", 0, false);
-	CampusCodesMap.connectVertex("M", "VMH", 0, false);
-	CampusCodesMap.connectVertex("N", "SH", 0, false);
-	CampusCodesMap.connectVertex("O", "RB", 0, false);
-	CampusCodesMap.connectVertex("P", "RB", 0, false); 
-	CampusCodesMap.connectVertex("Q", "UPF", 0, false);
-	CampusCodesMap.connectVertex("R", "ARTB", 0, false);
-	CampusCodesMap.connectVertex("R", "MUSB", 0, false);
-	CampusCodesMap.connectVertex("S", "BALH", 0, false);
-	CampusCodesMap.connectVertex("S", "HH", 0, false);
-	CampusCodesMap.connectVertex("T", "RWC", 0, false);
-	CampusCodesMap.connectVertex("U", "TH", 0, false);
-	CampusCodesMap.connectVertex("V", "ARTA", 0, false);
-	CampusCodesMap.connectVertex("W", "BHH", 0, false);
-	CampusCodesMap.connectVertex("W", "WH", 0, false);
-	CampusCodesMap.connectVertex("X", "CERAM", 0, false);
-	CampusCodesMap.connectVertex("X", "SCLPT", 0, false);
-	CampusCodesMap.connectVertex("Y", "GH", 0, false);
-	CampusCodesMap.connectVertex("Z", "SCIA", 0, false);
-	CampusCodesMap.connectVertex("A2", "SRC", 0, false);
-	CampusCodesMap.connectVertex("B2", "KA", 0, false);
-	CampusCodesMap.connectVertex("C2", "FGYM", 0, false);
-	CampusCodesMap.connectVertex("D2", "SCIB", 0, false);
-	CampusCodesMap.connectVertex("D2", "SCIC", 0, false);
-	CampusCodesMap.connectVertex("D2", "SCID", 0, false);
-	CampusCodesMap.connectVertex("D2", "SCIE", 0, false);
-	CampusCodesMap.connectVertex("E2", "SBS", 0, false);
-	CampusCodesMap.connectVertex("F2", "DELNO", 0, false);
-	CampusCodesMap.connectVertex("F2", "SHAST", 0, false);
-	CampusCodesMap.connectVertex("G2", "CDL", 0, false);
-	CampusCodesMap.connectVertex("G2", "HGH", 0, false);
-	CampusCodesMap.connectVertex("H2", "MENDO", 0, false);
-	CampusCodesMap.connectVertex("H2", "TRIN", 0, false);
-	CampusCodesMap.connectVertex("I2", "CEF", 0, false);
-	CampusCodesMap.connectVertex("J2", "WDFS", 0, false);
-	CampusCodesMap.connectVertex("K2", "MWCC", 0, false);
-	CampusCodesMap.connectVertex("L2", "WGP", 0, false);
-	CampusCodesMap.connectVertex("M2", "NR", 0, false);
-	CampusCodesMap.connectVertex("N2", "FM", 0, false);
-	CampusCodesMap.connectVertex("N2", "SR", 0, false);
-	CampusCodesMap.connectVertex("O2", "BOAT", 0, false);
-	CampusCodesMap.connectVertex("P2", "BSS", 0, false);
-	CampusCodesMap.connectVertex("P2", "NAF", 0, false);
-	CampusCodesMap.connectVertex("Q2", "BH", 0, false);
-	CampusCodesMap.connectVertex("Q2", "MCOM", 0, false);
-	CampusCodesMap.connectVertex("Q2", "MWH", 0, false);
-	CampusCodesMap.connectVertex("Q2", "TOD", 0, false);
-	CampusCodesMap.connectVertex("Q2", "WWH", 0, false);
-	CampusCodesMap.connectVertex("R2", "FR", 0, false);
-	CampusCodesMap.connectVertex("S2", "ANEX", 0, false);
-	CampusCodesMap.connectVertex("T2", "SERC", 0, false);
+	mapCode = {
+		{"ALDER", A_NodePointer},
+		{"CEDAR", A_NodePointer},
+		{"CHINQ", A_NodePointer},
+		{"HEMLOCK", A_NodePointer},
+		{"MADRN", A_NodePointer},
+		{"MAPLE", A_NodePointer},
+		{"PEPR", A_NodePointer},
+		{"TANOK", A_NodePointer},
+		{"CREEK", B_NodePointer},
+		{"FERN", B_NodePointer},
+		{"LAUREL", B_NodePointer},
+		{"JUNIP", B_NodePointer},
+		{"WILLOW", B_NodePointer},
+		{"JGC", C_NodePointer},
+		{"REDWO", D_NodePointer},
+		{"SUNST", D_NodePointer},
+		{"CYPRS", E_NodePointer},
+		{"FWH", F_NodePointer},
+		{"NHE", G_NodePointer},
+		{"NHW", G_NodePointer},
+		{"FH", H_NodePointer},
+		{"BRH", I_NodePointer},
+		{"HAH", I_NodePointer},
+		{"LAPT", I_NodePointer},
+		{"BOOK", J_NodePointer},
+		{"UC", J_NodePointer},
+		{"HC", K_NodePointer},
+		{"LIB", L_NodePointer},
+		{"VMH", M_NodePointer},
+		{"SH", N_NodePointer},
+		{"RB", O_NodePointer},
+		{"MUSA", P_NodePointer},
+		{"UPF", Q_NodePointer},
+		{"ARTB", R_NodePointer},
+		{"MUSB", R_NodePointer},
+		{"BALH", S_NodePointer},
+		{"HH", S_NodePointer},
+		{"RWC", T_NodePointer},
+		{"TH", U_NodePointer},
+		{"ARTA", V_NodePointer},
+		{"BHH", W_NodePointer},
+		{"WH", W_NodePointer},
+		{"CERAM", X_NodePointer},
+		{"SCLPT", X_NodePointer},
+		{"GH", Y_NodePointer},
+		{"SCIA", Z_NodePointer},
+		{"SRC", A2_NodePointer},
+		{"KA", B2_NodePointer},
+		{"FGYM", C2_NodePointer},
+		{"SCIB", D2_NodePointer},
+		{"SCIC", D2_NodePointer},
+		{"SCID", D2_NodePointer},
+		{"SCIE", D2_NodePointer},
+		{"SBS", E2_NodePointer},
+		{"DELNO", F2_NodePointer},
+		{"SHAST", F2_NodePointer},
+		{"CDL", G2_NodePointer},
+		{"HGH", G2_NodePointer},
+		{"MENDO", H2_NodePointer},
+		{"TRIN", H2_NodePointer},
+		{"CEF", I2_NodePointer},
+		{"WDFS", J2_NodePointer},
+		{"WGP", K2_NodePointer},
+		{"MWCC", L2_NodePointer},
+		{"NR", M2_NodePointer},
+		{"FM", N2_NodePointer},
+		{"SR", N2_NodePointer},
+		{"BOAT", O2_NodePointer},
+		{"BSS", P2_NodePointer},
+		{"NAF", P2_NodePointer},
+		{"BH", Q2_NodePointer},
+		{"MCOM", Q2_NodePointer},
+		{"MWH", Q2_NodePointer},
+		{"TOD", Q2_NodePointer},
+		{"WWH", Q2_NodePointer},
+		{"FR", R2_NodePointer},
+		{"ANEX", S2_NodePointer},
+		{"SERC", T2_NodePointer}
+	};
 
 
-	//user enters start_pos and end_pos
-	string start_loc = "";
-	string end_loc = "";
-	cout << "**HSU Transit Time Calculator**" << endl;
-	cout << "Enter starting location: ";
-	cin >> start_loc;
-	cout << "Enter destination: ";
-	cin >> end_loc;
-	cout << "Estimated travel time: "; // return the shortest time
+	////user enters start_pos and end_pos
+	//string start_loc = "";
+	//string end_loc = "";
+	//cout << "**HSU Transit Time Calculator**" << endl;
+	//cout << "Enter starting location: ";
+	//cin >> start_loc;
+	//cout << "Enter destination: ";
+	//cin >> end_loc;
+	//cout << "Estimated travel time: "; // return the shortest time
 
 
+	CampusGraph CampusPaths;
+	// set values to values in a String Graph Node
+	for (auto path : distances)
+	{
+		vector<string> currentDataItem = path;
 
+		// at an item you must
+		//  assign source, sink, weight
+		CampusPaths.addVertex(currentDataItem.at(0));
+		StringGraphNode currentPath = StringGraphNode(currentDataItem.at(0));
+		//StringGraphNode::GraphNode();
+		
+
+	}
 
 	
+	// creating the campus map
+	// parse through distances.csv file
 
 
-
-	CampusGraph graph{};
-	graph.addVertex("a");
-	graph.addVertex("b");
-	graph.addVertex("c");
-	graph.connectVertex("a", "b", 3, true);
-	graph.connectVertex("a", "c", 15);
-	graph.connectVertex("b", "c", 7, true);
-	auto distances = graph.computeShortestPath("a");
+	//CampusGraph graph{};
+	//graph.addVertex("a");
+	//graph.addVertex("b");
+	//graph.addVertex("c");
+	//graph.connectVertex("a", "b", 3, true);
+	//graph.connectVertex("a", "c", 15);
+	//graph.connectVertex("b", "c", 7, true);
+	//auto distances = graph.computeShortestPath("a");
 	return 0;
 }
