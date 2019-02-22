@@ -28,12 +28,26 @@ int main(void)
 {
 	CampusGraph CampusCodesMap;
 	unordered_map<string, StringGraphNode*> mapCode;
-	unordered_map<StringGraphNode*, string*> CampusMap;
+	unordered_map<StringGraphNode*, unordered_map<string, int>> CampusMap;
 
 	// parses through distance data
 	CsvStateMachine distanceData{ "distances.csv" };
 	vector<vector<string>> distances = distanceData.processFile();
 
+	for (auto path : distances)
+	{
+		vector<string> currentDataItem = path;
+		unordered_map<string, int> pathWeights;
+		StringGraphNode* startLocation;
+		string startLocString, endLocString, weightString;
+
+		startLocString = currentDataItem[0];
+		endLocString = currentDataItem[1];
+		weightString = currentDataItem[2];
+
+
+
+	}
 
 	CampusCodesMap.setCampusGraph(mapCode);
 
@@ -167,6 +181,58 @@ int main(void)
 		{"SERC", T2_NodePointer}
 	};
 
+	CampusGraph CampusPaths;
+	// building campus map
+	// set values to values in a String Graph Node
+
+	CampusPaths.addVertex(A_NodePointer);
+	CampusPaths.addVertex(B_NodePointer);
+	CampusPaths.addVertex(C_NodePointer);
+	CampusPaths.addVertex(D_NodePointer);
+	CampusPaths.addVertex(E_NodePointer);
+	CampusPaths.addVertex(F_NodePointer);
+	CampusPaths.addVertex(G_NodePointer);
+	CampusPaths.addVertex(H_NodePointer);
+	CampusPaths.addVertex(I_NodePointer);
+	CampusPaths.addVertex(J_NodePointer);
+	CampusPaths.addVertex(K_NodePointer);
+	CampusPaths.addVertex(L_NodePointer);
+	CampusPaths.addVertex(M_NodePointer);
+	CampusPaths.addVertex(N_NodePointer);
+	CampusPaths.addVertex(O_NodePointer);
+	CampusPaths.addVertex(P_NodePointer);
+	CampusPaths.addVertex(Q_NodePointer);
+	CampusPaths.addVertex(R_NodePointer);
+	CampusPaths.addVertex(S_NodePointer);
+	CampusPaths.addVertex(T_NodePointer);
+	CampusPaths.addVertex(U_NodePointer);
+	CampusPaths.addVertex(V_NodePointer);
+	CampusPaths.addVertex(W_NodePointer);
+	CampusPaths.addVertex(X_NodePointer);
+	CampusPaths.addVertex(Y_NodePointer);
+	CampusPaths.addVertex(Z_NodePointer);
+	CampusPaths.addVertex(A2_NodePointer);
+	CampusPaths.addVertex(B2_NodePointer);
+	CampusPaths.addVertex(C2_NodePointer);
+	CampusPaths.addVertex(D2_NodePointer);
+	CampusPaths.addVertex(E2_NodePointer);
+	CampusPaths.addVertex(F2_NodePointer);
+	CampusPaths.addVertex(G2_NodePointer);
+	CampusPaths.addVertex(H2_NodePointer);
+	CampusPaths.addVertex(I2_NodePointer);
+	CampusPaths.addVertex(J2_NodePointer);
+	CampusPaths.addVertex(K2_NodePointer);
+	CampusPaths.addVertex(L2_NodePointer);
+	CampusPaths.addVertex(M2_NodePointer);
+	CampusPaths.addVertex(N2_NodePointer);
+	CampusPaths.addVertex(O2_NodePointer);
+	CampusPaths.addVertex(P2_NodePointer);
+	CampusPaths.addVertex(Q2_NodePointer);
+	CampusPaths.addVertex(R2_NodePointer);
+	CampusPaths.addVertex(S2_NodePointer);
+	CampusPaths.addVertex(T2_NodePointer);
+
+
 
 	////user enters start_pos and end_pos
 	//string start_loc = "";
@@ -179,20 +245,7 @@ int main(void)
 	//cout << "Estimated travel time: "; // return the shortest time
 
 
-	CampusGraph CampusPaths;
-	// set values to values in a String Graph Node
-	for (auto path : distances)
-	{
-		vector<string> currentDataItem = path;
 
-		// at an item you must
-		//  assign source, sink, weight
-		CampusPaths.addVertex(currentDataItem.at(0));
-		StringGraphNode currentPath = StringGraphNode(currentDataItem.at(0));
-		//StringGraphNode::GraphNode();
-		
-
-	}
 
 	
 	// creating the campus map
