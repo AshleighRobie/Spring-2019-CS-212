@@ -39,14 +39,12 @@ int main(void)
 		vector<string> currentDataItem = path;
 		unordered_map<string, int> pathWeights;
 		StringGraphNode* startLocation;
-		string startLocString, endLocString, weightString;
 
-		startLocString = currentDataItem[0];
-		endLocString = currentDataItem[1];
-		weightString = currentDataItem[2];
-
-
-
+		startLocation = new StringGraphNode(currentDataItem[0]);
+		int pathTime = stoi(currentDataItem[2]);
+		pathWeights[currentDataItem[1]] = pathTime;
+		CampusMap[startLocation] = pathWeights;
+		
 	}
 
 	CampusCodesMap.setCampusGraph(mapCode);
