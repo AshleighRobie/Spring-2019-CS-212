@@ -29,22 +29,22 @@ int main(void)
 	CampusGraph CampusCodesMap;
 	unordered_map<string, StringGraphNode*> mapCode;
 	unordered_map<StringGraphNode*, unordered_map<string, int>> CampusMap;
-
+	/*CampusGraph WeightedCampusMap;
+	WeightedCampusMap.setCampusGraph(CampusMap);*/
 	// parses through distance data
 	CsvStateMachine distanceData{ "distances.csv" };
 	vector<vector<string>> distances = distanceData.processFile();
 
-	for (auto path : distances)
+	unordered_map<string, int> pathWeights;
+	for (int item = 0; item < distances.size(); item++)
 	{
-		vector<string> currentDataItem = path;
-		unordered_map<string, int> pathWeights;
+		vector<string> &currentDataItem = distances.at(item);
 		StringGraphNode* startLocation;
 
 		startLocation = new StringGraphNode(currentDataItem[0]);
 		int pathTime = stoi(currentDataItem[2]);
 		pathWeights[currentDataItem[1]] = pathTime;
 		CampusMap[startLocation] = pathWeights;
-		
 	}
 
 	CampusCodesMap.setCampusGraph(mapCode);
@@ -232,16 +232,37 @@ int main(void)
 
 
 
-	////user enters start_pos and end_pos
-	//string start_loc = "";
-	//string end_loc = "";
-	//cout << "**HSU Transit Time Calculator**" << endl;
-	//cout << "Enter starting location: ";
-	//cin >> start_loc;
-	//cout << "Enter destination: ";
-	//cin >> end_loc;
-	//cout << "Estimated travel time: "; // return the shortest time
+	//user enters start_pos and end_pos
+	string start_loc = "";
+	string end_loc = "";
+	cout << "**HSU Transit Time Calculator**" << endl;
+	cout << "Enter starting location: ";
+	cin >> start_loc;
+	cout << "Enter destination: ";
+	cin >> end_loc;
+	cout << "Estimated travel time: "; // return the shortest time
+	
+	//WeightedCampusMap.computeShortestPath(start_loc);
+	//for (auto kvp : mapCode)
+	//{
+	//	if (start_loc == kvp.first)
+	//	{
+	//		
+	//		for (auto path : CampusMap)
+	//		{
+	//			if (kvp.second == path.first)
+	//			{
 
+	//			}
+
+	//		}
+	//	}
+	//	else
+	//	{
+	//		cout << "Location does not exist. Please check building code." << endl;
+	//	}
+
+	//}
 
 
 
