@@ -2,50 +2,22 @@
 #include "CsvParser.h"
 #include <iostream>;
 
+/*
+	Ashleigh Robie
+	HSU ID: 0129-02549
+	Completion Time: about 7 hours
+	Individuals that I collaborated with: Xavier Damas, Zahory Velazquez
+*/
 using namespace std;
 
-double findTime(CampusGraph map,  string start_location, string end_location)
-{
-	unordered_map<string, int> distances;
-	distances = map.computeShortestPath(start_location);
-	bool is_found = false;
-	string key;
-	distances.find(start_location);
-	//if(is_found == true)
-
-	return 0;
-}
-
-unordered_map<StringGraphNode*, string*> buildMap()
-{
-	unordered_map<StringGraphNode*, string*> map;
-
-	return map;
-	// may delete later... 
-}
 
 int main(void)
 {
 	CampusGraph CampusCodesMap;
 	unordered_map<string, StringGraphNode*> mapCode;
+
+	// this is the resulting map from the csv file
 	unordered_map<StringGraphNode*, unordered_map<string, int>> CampusMap;
-	/*CampusGraph WeightedCampusMap;
-	WeightedCampusMap.setCampusGraph(CampusMap);*/
-	// parses through distance data
-	CsvStateMachine distanceData{ "distances.csv" };
-	vector<vector<string>> distances = distanceData.processFile();
-
-	unordered_map<string, int> pathWeights;
-	for (int item = 0; item < distances.size(); item++)
-	{
-		vector<string> &currentDataItem = distances.at(item);
-		StringGraphNode* startLocation;
-
-		startLocation = new StringGraphNode(currentDataItem[0]);
-		int pathTime = stoi(currentDataItem[2]);
-		pathWeights[currentDataItem[1]] = pathTime;
-		CampusMap[startLocation] = pathWeights;
-	}
 
 	CampusCodesMap.setCampusGraph(mapCode);
 
@@ -179,105 +151,68 @@ int main(void)
 		{"SERC", T2_NodePointer}
 	};
 
-	CampusGraph CampusPaths;
-	// building campus map
-	// set values to values in a String Graph Node
+	// parses through distance data
+	// building Campus Map with path weights
+	CsvStateMachine distanceData{ "distances.csv" };
+	vector<vector<string>> data = distanceData.processFile();
 
-	CampusPaths.addVertex(A_NodePointer);
-	CampusPaths.addVertex(B_NodePointer);
-	CampusPaths.addVertex(C_NodePointer);
-	CampusPaths.addVertex(D_NodePointer);
-	CampusPaths.addVertex(E_NodePointer);
-	CampusPaths.addVertex(F_NodePointer);
-	CampusPaths.addVertex(G_NodePointer);
-	CampusPaths.addVertex(H_NodePointer);
-	CampusPaths.addVertex(I_NodePointer);
-	CampusPaths.addVertex(J_NodePointer);
-	CampusPaths.addVertex(K_NodePointer);
-	CampusPaths.addVertex(L_NodePointer);
-	CampusPaths.addVertex(M_NodePointer);
-	CampusPaths.addVertex(N_NodePointer);
-	CampusPaths.addVertex(O_NodePointer);
-	CampusPaths.addVertex(P_NodePointer);
-	CampusPaths.addVertex(Q_NodePointer);
-	CampusPaths.addVertex(R_NodePointer);
-	CampusPaths.addVertex(S_NodePointer);
-	CampusPaths.addVertex(T_NodePointer);
-	CampusPaths.addVertex(U_NodePointer);
-	CampusPaths.addVertex(V_NodePointer);
-	CampusPaths.addVertex(W_NodePointer);
-	CampusPaths.addVertex(X_NodePointer);
-	CampusPaths.addVertex(Y_NodePointer);
-	CampusPaths.addVertex(Z_NodePointer);
-	CampusPaths.addVertex(A2_NodePointer);
-	CampusPaths.addVertex(B2_NodePointer);
-	CampusPaths.addVertex(C2_NodePointer);
-	CampusPaths.addVertex(D2_NodePointer);
-	CampusPaths.addVertex(E2_NodePointer);
-	CampusPaths.addVertex(F2_NodePointer);
-	CampusPaths.addVertex(G2_NodePointer);
-	CampusPaths.addVertex(H2_NodePointer);
-	CampusPaths.addVertex(I2_NodePointer);
-	CampusPaths.addVertex(J2_NodePointer);
-	CampusPaths.addVertex(K2_NodePointer);
-	CampusPaths.addVertex(L2_NodePointer);
-	CampusPaths.addVertex(M2_NodePointer);
-	CampusPaths.addVertex(N2_NodePointer);
-	CampusPaths.addVertex(O2_NodePointer);
-	CampusPaths.addVertex(P2_NodePointer);
-	CampusPaths.addVertex(Q2_NodePointer);
-	CampusPaths.addVertex(R2_NodePointer);
-	CampusPaths.addVertex(S2_NodePointer);
-	CampusPaths.addVertex(T2_NodePointer);
+	CampusGraph graph{};
+	vector<string> currentDataItem;
+	// adds all vertices
+	for (int path = 0; path < data.size(); path++)
+	{
+		currentDataItem = data[path];
 
+		graph.addVertex(currentDataItem[0]);
+		graph.addVertex(currentDataItem[1]);
+	}
 
+	// adds the connections
+	for (int path = 0; path < data.size(); path++)
+	{
+		currentDataItem = data[path];
+		int pathTime = stoi(currentDataItem[2]);
+		graph.connectVertex(currentDataItem[0], currentDataItem[1], pathTime, false);
 
-	//user enters start_pos and end_pos
+	}
+
+	
 	string start_loc = "";
 	string end_loc = "";
 	cout << "**HSU Transit Time Calculator**" << endl;
 	cout << "Enter starting location: ";
 	cin >> start_loc;
+	
+	/*
+		Given: start string from user
+		- must match the key of mapCode
+		- take that value and test it with graph{}
+
+		Given: destination string from user
+		- must match key of macCode
+		- take that value and match it with the inner map of Graph{}
+	*/
+	// returns an unordered map <string, int>
+	// to access kvp from mapCode, create for auto?
+	// calculates all the possible path times from that starting location
+	auto distances = graph.computeShortestPath(mapCode.at[start_loc]);
+
 	cout << "Enter destination: ";
 	cin >> end_loc;
+
+	// find the destination in the distances unordered_map
+	for (auto kvp : distances)
+	{
+
+	}
+	auto distances = graph.computeShortestPath(mapCode.at[end_loc]);
+
+	// access the time it takes
+	int travel_time = distances<mapCode.at[end_loc]>;
+	
+	
 	cout << "Estimated travel time: "; // return the shortest time
-	
-	//WeightedCampusMap.computeShortestPath(start_loc);
-	//for (auto kvp : mapCode)
-	//{
-	//	if (start_loc == kvp.first)
-	//	{
-	//		
-	//		for (auto path : CampusMap)
-	//		{
-	//			if (kvp.second == path.first)
-	//			{
-
-	//			}
-
-	//		}
-	//	}
-	//	else
-	//	{
-	//		cout << "Location does not exist. Please check building code." << endl;
-	//	}
-
-	//}
 
 
-
-	
-	// creating the campus map
-	// parse through distances.csv file
-
-
-	//CampusGraph graph{};
-	//graph.addVertex("a");
-	//graph.addVertex("b");
-	//graph.addVertex("c");
-	//graph.connectVertex("a", "b", 3, true);
-	//graph.connectVertex("a", "c", 15);
-	//graph.connectVertex("b", "c", 7, true);
-	//auto distances = graph.computeShortestPath("a");
 	return 0;
 }
