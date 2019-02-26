@@ -22,10 +22,12 @@ int main(void)
 	vector<vector<string>> codes = campusCode.processFile();
 
 	vector<string> currentCode;
+
 	for (int i = 0; i < codes.size(); i++)
 	{
 		currentCode = codes[i];
 		mapCode[currentCode[0]] = currentCode[1];
+		string fullName = currentCode[2];
 	}
 
 	// parses through distance data

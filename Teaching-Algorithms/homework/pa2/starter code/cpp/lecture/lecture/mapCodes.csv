@@ -1,78 +1,78 @@
-ALDER,A
-CEDAR,A
-CHINQ,A
-HEMLOCK,A
-MADRN,A
-MAPLE,A
-PEPR,A
-TANOK,A
-CREEK,B
-FERN,B
-LAUREL,B
-JUNIP,B
-WILLOW,B
-JGC,C
-REDWO,D
-SUNST,D
-CYPRS,E
-FWH,F
-NHE,G
-NHW,G
-FH,H
-BRH,I
-HAH,I
-LAPT,I
-BOOK,J
-UC,J
-HC,K
-LIB,L
-VMH,M
-SH,N
-RB,O
-MUSA,P
-UPF,Q
-ARTB,R
-MUSB,R
-BALH,S
-HH,S
-RWC,T
-TH,U
-ARTA,V
-BHH,W
-WH,W
-CERAM,X
-SCLPT,X
-GH,Y
-SCIA,Z
-SRC,A2
-KA,B2
-FGYM,C2
-SCIB,D2
-SCIC,D2
-SCID,D2
-SCIE,D2
-SBS,E2
-DELNO,F2
-SHAST,E2
-CDL,G2
-HGH,G2
-MENDO,H2
-TRIN,H2
-CEF,I2
-WDFS,J2
-WGP,K2
-MWCC,L2
-NR,M2
-FM,N2
-SR,N2
-BOAT,O2
-BSS,P2
-NAF,P2
-BH,Q2
-MCOM,Q2
-MWH,Q2
-TOD,Q2
-WWH,Q2
-FR,R2
-ANEX,S2
-SERC,T2
+ALDER,A,Alder
+CEDAR,A,Cedar
+CHINQ,A,Chinquapin
+HEMLOCK,A,Hemlock
+MADRN,A,Madrone
+MAPLE,A,Maple
+PEPR,A,Pepperwood
+TANOK,A,Tan Oak
+CREEK,B,Creekside Lounge
+FERN,B,Fern
+LAUREL,B,Laurel
+JUNIP,B,Juniper
+WILLOW,B,Willow
+JGC,C,Jolly Giant Commons
+REDWO,D,Redwood
+SUNST,D,Sunset
+CYPRS,E,Cypress
+FWH,F,Feuerwerker House
+NHE,G,Nelson Hall East
+NHW,G,Nelson Hall West
+FH,H,Founders Hall
+BRH,I,Brero House
+HAH,I,Y.E.S House
+LAPT,I,Little Apartments
+BOOK,J,Bookstore
+UC,J,University Center
+HC,K,Student Health & Counseling
+LIB,L,Library
+VMH,M,Van Matre Hall
+SH,N,Siemens Hall
+RB,O,Redwood Bowl
+MUSA,P,Music A
+UPF,Q,Upper Playing Field
+ARTB,R,Art B
+MUSB,R,Music B
+BALH,S,Multicultural Center
+HH,S,Hadley House
+RWC,T,Recreation & Wellness Center
+TH,U,Telonicher House
+ARTA,V,Art A
+BHH,W,Bret Harte House
+WH,W,Warren House
+CERAM,X,Ceramics Lab
+SCLPT,X,Sculpture Lab
+GH,Y,Gist Hall
+SCIA,Z,Science A
+SRC,A2,Student Recreation Center
+KA,B2,Kinesiology & Athletics
+FGYM,C2,Forbes Gym
+SCIB,D2,Science B
+SCIC,D2,Science C
+SCID,D2,Science D
+SCIE,D2,Science E
+SBS,E2,Student & Business Services
+DELNO,F2,Del Norte
+SHAST,E2,Shasta
+CDL,G2,Child Development Lab
+HGH,G2,Harry Griffith Hall
+MENDO,H2,Mendocine
+TRIN,H2,Trinity
+CEF,I2,Campus Events Field
+WDFS,J2,Wildlife  & Fisheries
+WGP,K2,Wildlife Game Pens
+MWCC,L2,Marince Wildlife Care Center
+NR,M2,Natural Resources
+FM,N2,Facilties Management
+SR,N2,Shipping & Receiving 
+BOAT,O2,Boat Facility
+BSS,P2,Behavioral & Social Sciences
+NAF,P2,Native American Forum
+BH,Q2,Baiocchi House
+MCOM,Q2,Marketing & Communications
+MWH,Q2,Mary Warren House
+TOD,Q2,Toddler Center
+WWH,Q2,INRSEP House
+FR,R2,Forestry
+ANEX,S2,Trinity Annex
+SERC,T2,Schatz Energy Research Center
