@@ -13,14 +13,14 @@ using namespace std;
 
 int main(void)
 {
-	CampusGraph CampusCodesMap;
 	unordered_map<string, string> mapCode;
-
-	// this is the resulting map from the csv file
 	unordered_map<StringGraphNode*, unordered_map<string, int>> CampusMap;
+	CampusGraph graph{};
 
+	// parses through mapc code values
 	CsvStateMachine campusCode{ "mapCodes.csv" };
 	vector<vector<string>> codes = campusCode.processFile();
+
 	vector<string> currentCode;
 	for (int i = 0; i < codes.size(); i++)
 	{
@@ -29,13 +29,11 @@ int main(void)
 	}
 
 	// parses through distance data
-	// building Campus Map with path weights
 	CsvStateMachine distanceData{ "distances.csv" };
 	vector<vector<string>> data = distanceData.processFile();
-
-	CampusGraph graph{};
-	vector<string> currentDataItem;
+	
 	// adds all vertices
+	vector<string> currentDataItem;
 	for (int path = 0; path < data.size(); path++)
 	{
 		currentDataItem = data[path];
@@ -44,7 +42,7 @@ int main(void)
 		graph.addVertex(currentDataItem[1]);
 	}
 
-	// adds the connections
+	// adds the path times
 	for (int path = 0; path < data.size(); path++)
 	{
 		currentDataItem = data[path];
@@ -53,37 +51,26 @@ int main(void)
 
 	}
 
-
+	// asks the user for starting location and destination
+	int travel_seconds, travel_minutes;
 	string start_loc = "";
 	string end_loc = "";
+
 	cout << "**HSU Transit Time Calculator**" << endl;
 	cout << "Enter starting location: ";
 	cin >> start_loc;
 
-	/*
-		Given: start string from user
-		- must match the key of mapCode
-		- take that value and test it with graph{}
-
-		Given: destination string from user
-		- must match key of macCode
-		- take that value and match it with the inner map of Graph{}
-	*/
-	// returns an unordered map <string, int>
-	// to access kvp from mapCode, create for auto?
 	// calculates all the possible path times from that starting location
-	//auto distances = graph.computeShortestPath(mapCode[start_loc]);
+	auto distances = graph.computeShortestPath(mapCode[start_loc]);
 
-	//cout << "Enter destination: ";
-	//cin >> end_loc;
+	cout << "Enter destination: ";
+	cin >> end_loc;
 
-
-	//// access time it takes
-	//int travel_time;
-	//travel_time = distances.at(mapCode.at[end_loc]);
-	//
-	//
-	//cout << "Estimated travel time: " << travel_time; // return the shortest time
+	// access the time it takes to destination
+	travel_seconds = distances.at(mapCode[end_loc]);
+	travel_minutes = travel_seconds / 60;
+	
+	cout << "Estimated travel time: About " << travel_minutes << " minutes" << endl; // return the shortest time
 
 
 	return 0;
