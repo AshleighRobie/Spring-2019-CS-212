@@ -2,6 +2,17 @@
 #include "CsvParser.h"
 #include <iostream>
 
+/*
+	Ashleigh Robie
+	HSU ID: 0129 - 02549
+	Time: 5 hours
+	Collaborated With: Zahory Velazquez
+
+*/
+
+
+using namespace std;
+
 int main(void)
 {
 	unordered_map<string, unordered_map<string, int>> completeMap;
@@ -35,12 +46,22 @@ int main(void)
 	cin >> deliveriesFile;
 	CsvStateMachine _deliveriesfile{ deliveriesFile };
 	vector<vector<string>> deliveryMap = _deliveriesfile.processFile();
-	// calculate all possible route using MST algorithm
 
+	// ======== Tier 1 =========
 	vector<string> startHouse = deliveryMap[0];
 	CityGraph MSTgraph = graph;
 	auto routes = MSTgraph.computeMinimumSpanningTree(startHouse[0]);
-
+	
+	// compute minimum spanning trees returns a vector of Edges
+	// sum cost of edges
+	Edge currentEdge;
+	int MSTrouteTime = 0;
+	for (int s = 0; s < routes.size(); s++)
+	{
+		currentEdge = routes[s];
+		MSTrouteTime += currentEdge.weight;
+	}
+	cout << "Total travel time for MST: " << MSTrouteTime << " minutes" << endl;
 	
 
 	// ======== TIER 2 ==========
@@ -54,36 +75,36 @@ int main(void)
 	{
 		vector<string> current = deliveryMap[v];
 		deliveries.push_back(current[0]);
-	}
+		Tier2graph.addVertex(current[0]);
 
-	// calculate shortest path from 
-	for (int c = 0; c < deliveries.size(); c++)
-	{
-		distances = graph.computeShortestPath(deliveries[c]);
-
+		distances = graph.computeShortestPath(current[0]);
 		for (auto kvp : distances)
 		{
-			if (kvp.first == deliveries[c+1])
+			for (int i = 0; i < deliveries.size(); i++)
 			{
-				Tier2graph.addVertex(kvp.first);
-				route_weight = kvp.second;
-				Tier2graph.connectVertex(deliveries[c], deliveries[c + 1], route_weight);
+				if (kvp.first == deliveries.at(i) && kvp.first != current[0])
+				{
+					route_weight = kvp.second;
+					Tier2graph.connectVertex(current[0], deliveries.at(i), route_weight, true);
+				}
 			}
 		}
 	}
 
-	// ======== Tier 1 =========
-	// compute minimum spanning trees returns a vector of Edges
-	// sum cost of edges
-	Edge currentEdge;
-	int MSTrouteTime = 0;
-	for (int s = 0; s < routes.size(); s++)
-	{
-		currentEdge = routes[s];
-		MSTrouteTime += currentEdge.weight;
-	}
-	cout << "Total travel time for MST: " << MSTrouteTime << " minutes" << endl;
+	int reducedGraphTime = 0;
+	// calculate shortest path
+	auto reducedRoutes = Tier2graph.computeMinimumSpanningTree(deliveries[0]);
+	Edge currentWeight;
 
- 
+	for (int s = 0; s < reducedRoutes.size(); s++)
+	{
+		currentWeight = reducedRoutes[s];
+		reducedGraphTime += currentWeight.weight;
+	}
+	cout << "Total travel time for reduced graph: " << reducedGraphTime << " minutes" << endl;
+
+	// ====== Tier 3 =======
+
+
 	return 0;
 }
