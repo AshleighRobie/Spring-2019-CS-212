@@ -23,6 +23,16 @@ public:
 	{
 		return lhs.weight > rhs.weight;
 	}
+
+	StringGraphNode* getSource()
+	{
+		return source;
+	}
+
+	StringGraphNode* getSink()
+	{
+		return sink;
+	}
 };
 
 

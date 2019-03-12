@@ -15,14 +15,13 @@ using namespace std;
 
 int main(void)
 {
-	unordered_map<string, unordered_map<string, int>> completeMap;
 	CityGraph graph{};
 	CityGraph Tier2graph{};
 	string mapFile, deliveriesFile;
 	cout << "***Route Planner***" << endl;
-	cout << "Enter maps file: "; 
+	cout << "Enter maps file: ";
 	cin >> mapFile;
-	
+
 	CsvStateMachine _mapfile{ mapFile };
 	vector<vector<string>> _completeMap = _mapfile.processFile();
 
@@ -39,7 +38,6 @@ int main(void)
 	{
 		currentPath = _completeMap[i];
 		graph.connectVertex(currentPath[0], currentPath[1], stoi(currentPath[2]), true);
-
 	}
 
 	cout << "Enter route file: ";
@@ -51,60 +49,91 @@ int main(void)
 	vector<string> startHouse = deliveryMap[0];
 	CityGraph MSTgraph = graph;
 	auto routes = MSTgraph.computeMinimumSpanningTree(startHouse[0]);
-	
-	// compute minimum spanning trees returns a vector of Edges
-	// sum cost of edges
+
 	Edge currentEdge;
 	int MSTrouteTime = 0;
+	// sums cost of edges
 	for (int s = 0; s < routes.size(); s++)
 	{
 		currentEdge = routes[s];
 		MSTrouteTime += currentEdge.weight;
 	}
+
 	cout << "Total travel time for MST: " << MSTrouteTime << " minutes" << endl;
-	
+
 
 	// ======== TIER 2 ==========
 	unordered_map<string, int> distances{};
+	vector<string> housesOnRoute;
+	vector<string> deliveries;
+	string startOfRoute;
 	int route_weight = 0;
 
-	// reduce map then calculate shortest path
-	// loads vertexes into single vector
-	vector<string> deliveries;
+	// loads deliveries into single vector & adds deliverie to graph
 	for (int v = 0; v < deliveryMap.size(); v++)
 	{
 		vector<string> current = deliveryMap[v];
 		deliveries.push_back(current[0]);
 		Tier2graph.addVertex(current[0]);
 
+		// calculates all shortest paths from current house
 		distances = graph.computeShortestPath(current[0]);
+
+		// iterates through unordered map
 		for (auto kvp : distances)
 		{
 			for (int i = 0; i < deliveries.size(); i++)
 			{
+				// must be in delivery list & not itself
 				if (kvp.first == deliveries.at(i) && kvp.first != current[0])
 				{
+					// builds new graph with path weight
 					route_weight = kvp.second;
 					Tier2graph.connectVertex(current[0], deliveries.at(i), route_weight, true);
+					if (i == 0)
+					{
+						startOfRoute = current[0];
+					}
+
 				}
 			}
 		}
 	}
 
 	int reducedGraphTime = 0;
-	// calculate shortest path
-	auto reducedRoutes = Tier2graph.computeMinimumSpanningTree(deliveries[0]);
-	Edge currentWeight;
+	auto reducedRoutes = Tier2graph.computeMinimumSpanningTree(deliveries.at(0));
+	int currentWeight = 0;
+	vector<string> route;
+	Edge currentRouteWeight;
 
+	// sums cost of edges
 	for (int s = 0; s < reducedRoutes.size(); s++)
 	{
-		currentWeight = reducedRoutes[s];
-		reducedGraphTime += currentWeight.weight;
+		currentRouteWeight = reducedRoutes[s];
+		reducedGraphTime += currentRouteWeight.weight;
 	}
+
 	cout << "Total travel time for reduced graph: " << reducedGraphTime << " minutes" << endl;
 
 	// ====== Tier 3 =======
+	// output the route 
+	string currentHouse = "";
+	string nextHouse = "";
 
+	// loads route into a vector
+	auto pathTaken = Tier2graph.computeShortestPath(startOfRoute);
+
+	for (auto kvp : pathTaken)
+	{
+		route.push_back(kvp.first);
+	}
+
+	for (int x = 0; x < route.size() - 1; x++)
+	{
+		currentHouse = route.at(x);
+		nextHouse = route.at(x + 1);
+		cout << currentHouse << " -> " << nextHouse << endl;
+	}
 
 	return 0;
 }
