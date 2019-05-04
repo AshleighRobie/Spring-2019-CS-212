@@ -1,0 +1,9 @@
+NULL|Outlook|4
+Sunny|Humidity|2
+Outlook|Play ball|0
+Overcast|Yes|0
+Rain|Wind|2
+High|No|0
+Normal|Yes|0
+Weak|Yes|0
+Strong|No|0
