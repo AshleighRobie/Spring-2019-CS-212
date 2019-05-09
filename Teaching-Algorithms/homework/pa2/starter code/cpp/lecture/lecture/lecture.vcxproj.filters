@@ -37,11 +37,5 @@
     <None Include="data.csv">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="..\..\..\..\distances.csv">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\..\..\..\mapCodes.csv">
-      <Filter>Resource Files</Filter>
-    </None>
   </ItemGroup>
 </Project>

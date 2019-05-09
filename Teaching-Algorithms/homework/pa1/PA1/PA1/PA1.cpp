@@ -19,7 +19,7 @@ HuffmanTree<char>* PA1::huffmanTreeFromText(vector<string> data)
 	{
 		for (auto ch : word)
 		{
-			//alter freq distribution
+			// counts the frequencies
 			frequencies[ch]++;
 		}
 	}
@@ -61,50 +61,60 @@ HuffmanTree<char>* PA1::huffmanTreeFromMap(unordered_map<char, string> huffmanMa
 	//Huffman Map contains a series of codes(e.g. 'a' = > 001).Each digit(0, 1) 
 	//in a given code corresponds to a left branch for 0 and right branch for 1.
 
-	HuffmanNode<char>* _root = new HuffmanInternalNode<char>{ nullptr, nullptr };
-	HuffmanInternalNode<char>* current;
+	HuffmanInternalNode<char>* root = new HuffmanInternalNode<char>{ nullptr, nullptr };
+	HuffmanInternalNode<char>* current = root;
 
-	string path = "0110";
-	char value = 'x';
 
-	for (int i = 0; i < path.length() - 1; i++)
+	string path;
+	char value;
+
+	for (auto kvp : huffmanMap)
 	{
-		char ch;
-		if (ch == '0')
+		path = kvp.second;
+		value = kvp.second[kvp.second.length() - 1];
+
+		for (int i = 0; i < path.length() - 1; i++)
 		{
-			if (current->getLeftChild() == nullptr)
+			char ch = path[i];
+			if (ch == '0')
 			{
-				current->setLeftChild(new HuffmanInternalNode<char>{ nullptr,nullptr });
+				if (current->getLeftChild() == NULL)
+				{
+					current->setLeftChild(new HuffmanInternalNode<char>{ nullptr,nullptr });
+				}
+
+				current = dynamic_cast<HuffmanInternalNode<char>*>(current->getLeftChild());
 			}
 
-			current = dynamic_cast<HuffmanInternalNode<char>*>(current->getLeftChild());
+			else
+			{
+				if (current->getRightChild() == nullptr)
+				{
+					current->setRightChild(new HuffmanInternalNode<char>{ nullptr,nullptr });
+				}
+
+				current = dynamic_cast<HuffmanInternalNode<char>*>(current->getRightChild());
+			}
+
 		}
 
+		char last_ch = ( path[path.length() - 1]);
+
+		if (last_ch == '0')
+		{
+			current->setLeftChild(new HuffmanLeafNode<char>{ value,1 });
+			current = root;
+		}
 		else
 		{
-			if (current->getRightChild() == nullptr)
-			{
-				current->setRightChild(new HuffmanInternalNode<char>{ nullptr,nullptr });
-			}
-
-			current = dynamic_cast<HuffmanInternalNode<char>*>(current->getRightChild());
+			current->setRightChild(new HuffmanLeafNode<char>{ value,1 });
+			current = root;
 		}
-
 	}
 
-	char last_ch = {path.length() - 1};
+	HuffmanTree<char>* forest = new HuffmanTree<char>{ root };
 
-	if (last_ch == '0')
-	{
-		current->setLeftChild(new HuffmanLeafNode<char>{ value,1 });
-	}
-	else
-	{
-		current->setRightChild(new HuffmanLeafNode<char>{ value,1 });
-	}
-
-
-	return nullptr;
+	return forest;
 }
 
 void huffmanEncodingMapFromTreeHelper(unordered_map<char, string>&map,
@@ -154,6 +164,19 @@ void PA1::writeEncodingMapToFile(unordered_map<char, string> huffmanMap, string 
 {
 	//Writes the supplied encoding map to a file.  My map file has one 
 	//association per line (e.g. 'a' and 001 would yield the line "a001")
+	ofstream outputFile{ file_name };
+	for (auto kvp : huffmanMap)
+	{
+		outputFile << kvp.first;
+		for (auto path : kvp.second)
+		{
+			outputFile << path;
+		}
+		outputFile << "\n";
+	}
+
+	outputFile.close();
+
 }
 
 //PA #1 TODO: Reads an encoding map from a file.  Needed for decompression.
@@ -163,6 +186,36 @@ unordered_map<char, string> PA1::readEncodingMapFromFile(string file_name)
 	//inverse of writeEncodingMapToFile.  
 	// turn back in to key,value pair
 	unordered_map<char, string> result{};
+	string line;
+	ifstream inputFile{ file_name };
+	string path;
+	char key;
+	while (inputFile.is_open())
+	{
+		getline(inputFile, line);
+		for (auto ch : line)
+		{
+			if (ch != '0' && ch != '1')
+			{
+				key = ch;
+			}
+			else
+			{
+				path.push_back(ch);
+			}
+		}
+		result.emplace(key, path);
+		path.clear();
+
+		if (line.empty())
+		{
+			inputFile.close();
+		}
+	}
+	
+
+
+
 	return result;
 }
 
@@ -173,10 +226,53 @@ string PA1::decodeBits(vector<bool> bits, unordered_map<char, string> huffmanMap
 	//To solve this problem, I converted the Huffman Map into a Huffman Tree and used 
 	//tree traversals to convert the bits back into text
 	// call build tree from map
-
-	huffmanTreeFromMap(huffmanMap);
-
+	int index = 0;
 	ostringstream result{};
+	HuffmanTree<char>* tree;
+	result.str();
+	result.clear();
+
+	tree = huffmanTreeFromMap(huffmanMap);
+	HuffmanInternalNode<char>* internal = dynamic_cast<HuffmanInternalNode<char>*>(tree->getRoot());
+	HuffmanLeafNode<char>* leaf = dynamic_cast<HuffmanLeafNode<char>*>(tree->getRoot());
+
+	while (index != bits.size())
+	{
+		if (bits[index] == 0)
+		{
+			if (internal->getLeftChild()->isLeaf() == true)
+			{
+				leaf = dynamic_cast<HuffmanLeafNode<char>*>(internal->getLeftChild());
+				result << leaf->getValue();
+				internal = dynamic_cast<HuffmanInternalNode<char>*>(tree->getRoot());
+			}
+			else
+			{
+				internal = dynamic_cast<HuffmanInternalNode<char>*>(internal->getLeftChild());
+			}
+			index++;
+		}
+		else
+		{
+			if (internal->getRightChild()->isLeaf() == true)
+			{
+				leaf = dynamic_cast<HuffmanLeafNode<char>*>(internal->getRightChild());
+				result << leaf->getValue();
+				internal = dynamic_cast<HuffmanInternalNode<char>*>(tree->getRoot());
+			}
+			else
+			{
+				internal = dynamic_cast<HuffmanInternalNode<char>*>(internal->getRightChild());
+			}
+			index++
+		}
+	}
+
+	tree = huffmanTreeFromMap(huffmanMap);
+
+
+
+	
 	return result.str();
 }
 
@@ -185,5 +281,32 @@ vector<bool> PA1::toBinary(vector<string> text, unordered_map<char, string> huff
 {
 	// take each char and make it equal to binary representation
 	vector<bool> result{};
+
+	for (auto str : text)
+	{
+		for (auto ch : str)
+		{
+			for (auto kvp : huffmanMap)
+			{
+				if (ch == kvp.first)
+				{
+					for (auto path : kvp.second)
+					{
+						if (path == '0')
+						{
+							result.push_back(0);
+						}
+						else
+						{
+							result.push_back(1);
+						}
+					}
+
+				}
+			}
+		}
+
+	}
+	
 	return result;
 }

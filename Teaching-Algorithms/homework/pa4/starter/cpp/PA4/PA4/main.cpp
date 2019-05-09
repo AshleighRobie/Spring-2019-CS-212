@@ -2,177 +2,168 @@
 #include <unordered_map>
 #include <cmath>
 #include <string>
-#include <queue>
 #include "CsvParser.h"
 #include "TreeNode.h"
-#include "DecisionTree.h"
 
-/*
-	Ashleigh Robie
-	HSU ID: 0129-02549
-	Completion Time: 5 hours
-	Collaborated with: Xavier, Emma, Zahory
-*/
 using namespace std;
 
-void traverseTree(TreeNode* root)
+//calculate entropy based on a frequency distribution of all 
+//outcome levels
+double calculateEntropy(const unordered_map<string, int>& outcome_level)
 {
-	root->children;
+   //determine denominator
+   int denominator = 0;
+   for (auto i : outcome_level)
+   {
+      denominator += i.second;
+   }
+
+   //calculate entropy
+   double entropy = 0.0;
+   for (auto item : outcome_level)
+   {
+      double ratio = (double)item.second / denominator;
+      double logged = log2(ratio);
+      entropy += -ratio * logged;
+   }
+   return entropy;
 }
 
-TreeNode* option1(string input_csv, int column)
+//builds frequency distribution based on supplied vector of data
+unordered_map<string, int> buildFrequencyDistribution(const vector<string>& data)
 {
-	CsvStateMachine parser{ input_csv };
-	vector<vector<string>> data = parser.processFile();
-	vector<string> header = data[0];
-
-	return buildTree(data, header, column);	
-}
-void option2_helper(TreeNode* root, queue<pair<string, TreeNode*>>& nodes)
-{
-	// pushes all children in
-	unordered_map <string, TreeNode*> current = root->children;
-	for (auto kvp : current)
-	{
-		nodes.push(make_pair(kvp.first, kvp.second));
-	}
-
-	for (auto kvp : current)
-	{
-		// call recursively
-		option2_helper(kvp.second, nodes);
-	}
+   unordered_map<string, int> distribution{};
+   for (auto item : data)
+   {
+      distribution[item]++;
+   }
+   return distribution;
 }
 
-void option2(TreeNode* root)
+//allows us to grab a specific column of data from our 2d matrix
+vector<string> getObservations(const vector<vector<string>>& matrix, 
+   int column)
 {
-	string user_output_file = " ";
-	cout << "Enter output file: ";
-	cin >> user_output_file;
-	ofstream output_file{ user_output_file };
-	queue<pair<string, TreeNode*>> output;
-
-	// sets top of tree to "NULL" and root
-	output.push(make_pair("NULL", root));
-	option2_helper(root, output);
-
-	while (output.size() > 0)
-	{
-		pair<string, TreeNode*> current = output.front();
-		output.pop();
-		
-		// connection | child | # children
-		output_file << current.first << "|" << current.second->value << "|" << current.second->children.size() << endl;
-	}
-
-	output_file.close();
+   vector<string> result{};
+   for (int i = 0; i < matrix.size(); i++)
+   {
+      result.push_back(matrix[i][column]);
+   }
+   return result;
 }
 
-void option3(string input_csv, int column, TreeNode* root)
+//for the given matrix, reduce matrix such that all results
+//match the supplied predictor variable on the supplied column
+vector<vector<string>> reduceMatrix(
+   const vector<vector<string>>& matrix,
+   int column,
+   string predictor
+)
 {
-	CsvStateMachine parser{ input_csv };
-	vector<vector<string>> data = parser.processFile();
-	vector<string> header = data[0];
-	header.push_back("Predictions");
+   vector<vector<string>> result{};
+   for (int i = 0; i < matrix.size(); i++)
+   {
+      if (matrix[i][column] == predictor)
+      {
+         result.push_back(matrix[i]);
+      }
+   }
+   return result;
+}
 
-	vector<string> predictor;
-	unordered_map<string, TreeNode*> current = root->children;
-	for (int i = 1; i < data.size(); i++)
-	{
-		predictor = data[i];
-		for (auto kvp : current)
-		{
-			for (int x = 0; x < predictor.size(); x++)
-			{
-				if (kvp.first == predictor[x])
-				{
-					// call recursively?
-				}
-			}
-		}
-	}
+int findMaxGain(
+   const vector<vector<string>>& matrix, 
+   int outcome_column,
+   double entropy)
+{
+   if (matrix.size() == 0)
+   {
+      return -1;
+   }
+
+   vector<double> information_gain{};
+
+   //caculate information gain for each predictor variable
+   for (int column = 0; column < matrix[0].size(); column++)
+   {
+      //skip outcome column
+      if (column == outcome_column)
+      {
+         information_gain.push_back(-1);
+         continue;
+      }
+
+      vector<string> observations = getObservations(matrix, column);
+      unordered_map<string, int> observation_levels = buildFrequencyDistribution(observations);
+      double local_entropy = 0.0;
+      for (auto level : observation_levels)
+      {
+         auto reduced_matrix = reduceMatrix(matrix, column, level.first);
+         auto reduced_observations = getObservations(reduced_matrix, outcome_column);
+         local_entropy += ((double)level.second / observations.size()) *
+            calculateEntropy(buildFrequencyDistribution(reduced_observations));
+         
+      }
+      information_gain.push_back(entropy - local_entropy);
+      
+   }
+
+   //return column with most gain
+   int most_gain = 0;
+   for (int i = 1; i < information_gain.size(); i++)
+   {
+      if (information_gain[i] > information_gain[most_gain])
+      {
+         most_gain = i;
+      }
+   }
+   return most_gain;
+}
+
+TreeNode* buildTree(
+   const vector<vector<string>>& matrix,
+   const vector<string>& predictors,
+   const int& outcome_column
+)
+{
+   vector<string> observations = getObservations(matrix, outcome_column);
+   double entropy = calculateEntropy(
+      buildFrequencyDistribution(observations));
+
+   //base case: 0 entropy
+   if (entropy < 0.01)
+   {
+      TreeNode* node = new TreeNode{};
+      node->value = matrix[0][outcome_column];
+      return node;
+   }
+
+   int col = findMaxGain(matrix, outcome_column, entropy);
+
+   //create new node
+   TreeNode* node = new TreeNode{};
+   node->value = predictors[col];
+
+   //attach as children all levels of outcome
+   vector<string> selected_observations = getObservations(matrix, col);
+   auto selected_levels = buildFrequencyDistribution(selected_observations);
+   for (auto level : selected_levels)
+   {
+      auto reduced_matrix = reduceMatrix(matrix, col, level.first);
+      node->children[level.first] = buildTree(reduced_matrix, predictors, outcome_column);
+   }
+   return node;
 }
 
 int main(void)
 {
-
-	string file_name = " ";
-	int user_option = 0;
-
-	cout << "*** Decision Tree Menu ***" << endl;
-	cout << "Enter csv file: ";
-	cin >> file_name;
-
-
-	do{
-
-		cout << " *** Option Menu *** " << endl;
-		cout << "1 | build tree from file \n2 | write tree to file \n3 | predict outcome \n4 | read tree from file" << endl;
-		cout << "0 | exit" << endl;
-		cout << "Option #: ";
-		cin >> user_option;
-		cout << " ******************* " << endl;
-
-		// build tree 
-		if (user_option == 1)
-		{
-			int user_outcome_variable = 0;
-			cout << "Enter Outcome Column Number: ";
-			cin >> user_outcome_variable;
-
-			option1(file_name, user_outcome_variable);
-		}
-
-		// write built tree to file
-		else if (user_option == 2)
-		{
-			int user_outcome_variable = 0;
-			cout << "Enter Outcome Column Number: ";
-			cin >> user_outcome_variable;
-
-			TreeNode* root = option1(file_name, user_outcome_variable);
-			option2(root);
-		}
-
-		// predict outcome from the tree built, and send to file
-		else if (user_option == 3)
-		{
-			int user_outcome_variable = 0;
-			cout << "Enter outcome column number: ";
-			cin >> user_outcome_variable;
-
-			
-	
-		}
-		else if (user_option == 4)
-		{
-
-		}
-		else if(user_option == 0)
-		{
-			break;
-		}
-	} while (user_option != 0 || user_option != 1 || user_option != 2 || user_option != 3 || user_option != 4);
-
-
-	//// outcome_col is 4, not 5 b/c matrix is zero-based index
-	//TreeNode* root = buildTree(data, header, outcome_col);
-	//write_to_file(root);
-	//csv_output(header, root, data, 4);
-	//vector<string> row = getRow(data, 1, 4);
-
-	//// 4
-	//string tree_file;
-	////cout<< "File containing tree: " << endl;
-	////cin >> tree_file;
-	////CsvStateMachine parser1{tree_file};
-	//CsvStateMachine parser1{ "output.txt" };
-	//vector<vector<string>> tree_data = parser1.processFile();
-	//read_tree_from_file(tree_data);
+   CsvStateMachine parser{ "easy data set.csv" };
+   vector<vector<string>> data = parser.processFile();
+   vector<string> header = data[0];
 
    //AC NOTE: very slow.  Consider using STL move to move
    //array elements 1...size() to another structure
-    
+   data.erase(data.begin());
 
-   return 0;
+   TreeNode* root = buildTree(data, header, 4);
 }

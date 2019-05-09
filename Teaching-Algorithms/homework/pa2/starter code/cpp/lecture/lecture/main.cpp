@@ -1,7 +1,6 @@
-#include "CampusGraph.h"
+#include "CampusGraph.h";
 #include "CsvParser.h"
-#include <iostream>
-#include <queue>
+#include <iostream>;
 
 /*
 	Ashleigh Robie
@@ -63,24 +62,18 @@ int main(void)
 	cout << "Enter starting location: ";
 	cin >> start_loc;
 
-	// calculates all possible path times from that starting location
+	// calculates all the possible path times from that starting location
 	auto distances = graph.computeShortestPath(mapCode[start_loc]);
-	queue<string> visited;
 
 	cout << "Enter destination: ";
 	cin >> end_loc;
 
-	//for (auto kvp : distances)
-	//{
-	//	visited.push(kvp.first);
-	//}
 	// access the time it takes to destination
 	travel_seconds = distances.at(mapCode[end_loc]);
 	travel_minutes = travel_seconds / 60;
 	
 	cout << "Estimated travel time: About " << travel_minutes << " minutes" << endl; // return the shortest time
-	cout << "On your way from " << mapCode[start_loc] << " to " << mapCode[end_loc] 
-		<< " you will pass by: " ;
+
 
 	return 0;
 }

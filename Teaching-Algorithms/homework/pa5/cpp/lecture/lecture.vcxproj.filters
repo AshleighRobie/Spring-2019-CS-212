@@ -20,19 +20,8 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="sample1.txt">
+    <None Include="data.csv">
       <Filter>Resource Files</Filter>
-    </Text>
-    <Text Include="sample2.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
-    <Text Include="words.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="EditDistance.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    </None>
   </ItemGroup>
 </Project>
